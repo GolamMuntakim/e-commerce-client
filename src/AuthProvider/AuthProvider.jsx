@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { app } from "../firebase/firebase.Config";
-import {getAuth,GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile} from 'firebase/auth'
+import {getAuth,GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile, signInWithPopup} from 'firebase/auth'
 import axios from "axios"
 export const AuthContext = createContext(null)
 const auth = getAuth(app)
@@ -18,11 +18,11 @@ const AuthProvider = ({children}) => {
     }
     const signInWithGoogle = () =>{
         setLoading(true)
-        return signInWithGoogle(auth,googleProvider)
+        return signInWithPopup(auth,googleProvider)
     }
     const logOut = async() =>{
         setLoading(true)
-        const {data} = await axios(`http://localhost:5000/logout`,{
+        const {data} = await axios(`${import.meta.env.VITE_API_URL}/logout`,{
             withCredentials:true
         })
         console.log(data)

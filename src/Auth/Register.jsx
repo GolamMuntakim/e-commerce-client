@@ -3,26 +3,44 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import axios from "axios";
 import toast from 'react-hot-toast';
+import { imageupload } from "../api/utilities";
+import { FcGoogle } from "react-icons/fc";
 
 
 const Register = () => {
     const navigate = useNavigate()
     const {signIn, signInWithGoogle, createUser, updateUserProfile, user , setUser, loading} = useContext(AuthContext)
+    const handleGoogleSignin = async()=>{
+        try{
+            const result = await signInWithGoogle()
+            console.log(result.user)
+            const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`,{
+                email : result?.user?.email,
+            },{withCredentials:true})
+            console.log(data)
+        toast.success("You have sign in succesfully")
+        navigate("/")
+        }catch(err){
+            console.log(err)
+            toast.error(err?.message)
+        }
+    }
     
     const handleSignUp = async e =>{
         e.preventDefault()
         const form = e.target
         const email = form.email.value 
         const name = form.name.value 
-        const photo = form.photo.value 
+        const image = form.image.files[0] 
         const pass = form.password.value 
-        console.log({email,name,pass,photo})
+        console.log({email,name,pass,image})
         try{
+            const image_url = await imageupload(image)
             const result = await createUser(email,pass)
-            await updateUserProfile(name,photo)
-            setUser({...result?.user, photoURL:photo, displayName : name})
+            await updateUserProfile(name,image_url)
+            setUser({...result?.user, photoURL:image_url, displayName : name})
             console.log(result.user)
-            const {data} = await axios.post(`http://localhost:5000/jwt`,{
+            const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`,{
                 email : result?.user?.email,
             },{
                 withCredentials:true
@@ -39,6 +57,7 @@ const Register = () => {
     return (
         <div>
             <div className="hero bg-base-200 min-h-screen">
+             
   <div className="hero-content flex-col lg:flex-row-reverse">
     <div className="text-center lg:text-left">
       <h1 className="text-5xl font-bold">Login now!</h1>
@@ -48,6 +67,9 @@ const Register = () => {
       </p>
     </div>
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+   <div className="flex justify-center w-full ">
+   <button onClick={handleGoogleSignin}  className="btn flex gap-4 items-center  border-2 border-solid justify-center p-4"><FcGoogle />Sign In With Google</button>
+   </div>
       <form className="card-body" onSubmit={handleSignUp}>
       <div className="form-control">
           <label className="label">
@@ -65,7 +87,7 @@ const Register = () => {
           <label className="label">
             <span className="label-text">photo</span>
           </label>
-          <input type="text" name="photo" placeholder="email" className="input input-bordered" required />
+          <input type="file" name="image" id="image" accept="image/*" className="input input-bordered" required />
         </div>
         <div className="form-control">
           <label className="label">

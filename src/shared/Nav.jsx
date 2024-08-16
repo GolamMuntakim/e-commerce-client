@@ -43,9 +43,16 @@ const Nav = () => {
   </div>
   <div className="navbar-end">
     {/* <a className="btn">Button</a> */}
-    <details className="dropdown">
-  <summary className="btn m-1">open or close</summary>
-  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+    <details className="dropdown dropdown-end">
+  <summary className="btn m-1">
+    {/* open or close */}
+    <div className="avatar">
+  <div className="w-10 rounded-full">
+    <img src={user?.photoURL} />
+  </div>
+</div>
+    </summary>
+  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52  shadow">
     <li><a>{user?.displayName}</a></li>
     <li onClick={logOut}><a>Log Out</a></li>
   </ul>
