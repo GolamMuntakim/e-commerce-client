@@ -87,7 +87,7 @@ const Register = () => {
           <label className="label">
             <span className="label-text">photo</span>
           </label>
-          <input type="file" name="image" id="image" accept="image/*" className="input input-bordered" required />
+          <input type="file" name="image" id="image" accept="image/*" className="file-input file-input-bordered file-input-primary w-full max-w-xs" required />
         </div>
         <div className="form-control">
           <label className="label">
@@ -96,7 +96,7 @@ const Register = () => {
           <input type="password" name="password" placeholder="password" className="input input-bordered" required />
           <label className="label">
             <a href="#" className="label-text-alt link link-hover">Already Have An account?</a>
-            <span><Link to="login">Log in</Link></span>
+            <span><Link to="/login">Log in</Link></span>
           </label>
         </div>
         <div className="form-control mt-6">
