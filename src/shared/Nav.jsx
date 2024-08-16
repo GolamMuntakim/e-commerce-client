@@ -1,10 +1,22 @@
 
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 
 const Nav = () => {
   const {user,logOut} = useContext(AuthContext)
+  const [theme, setTheme] = useState(()=>{
+    return localStorage.getItem('theme') || 'light';
+})
+useEffect(() => {
+  localStorage.setItem('theme', theme)
+  const localTheme = localStorage.getItem('theme')
+  document.querySelector('html').setAttribute('data-theme', theme)
+}, [theme])
+const handleToggle = e => {
+  setTheme(prevTheme=>(prevTheme==='light' ? 'dark' : 'light'))
+ 
+}
     const Links = <>
     <ul><li><Link to="/">Home</Link></li></ul>
     <ul><li><Link to="makeCart">Make Product Cart</Link></li></ul>
@@ -55,7 +67,7 @@ const Nav = () => {
   <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52  shadow">
     <li><a>{user?.displayName}</a></li>
     <li onClick={logOut}><a>Log Out</a></li>
-   <li><a  className='flex items-center'>Dark/Light <input type="checkbox" className="toggle" defaultChecked /></a></li>
+   <li><a  className='flex items-center'>Dark/Light <input onChange={handleToggle} type="checkbox" className="toggle" defaultChecked /></a></li>
   </ul>
 </details>
   </div>

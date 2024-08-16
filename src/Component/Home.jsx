@@ -16,11 +16,11 @@ const Home = () => {
   const pageButton = [...Array(pagenumber).keys()].map(item => item + 1)
   const [pricefilter, setPricefilter] = useState('')
   const [sort, setSort] = useState('')
+  const [date,setDate] = useState('')
   console.log(products)
-
   useEffect(() => {
     getData()
-  }, [search, filter, currentPage, pages, brandfilter,pricefilter,sort])
+  }, [search, filter, currentPage, pages, brandfilter, pricefilter, sort,date])
   const getData = async () => {
     const { data } = await axios(`${import.meta.env.VITE_API_URL}/allproduct?page=${currentPage}&size=${pages}&search=${search}&filter=${filter.trim()}&brandfilter=${brandfilter}`)
     const filteredProducts = filterByPrice(data);
@@ -39,15 +39,26 @@ const Home = () => {
       return false;
     });
   };
-
   const sortProducts = (products) => {
     if (sort === 'min price') {
       return products.sort((a, b) => a.price - b.price);
     } else if (sort === 'max price') {
       return products.sort((a, b) => b.price - a.price);
+    } else if (date === 'newest') {
+      return products.sort((a, b) => new Date(b.date) - new Date(a.date));
+    } else if (date === 'oldest') {
+      return products.sort((a, b) => new Date(a.date) - new Date(b.date));
     }
     return products;
   };
+  // const sortProducts = (products) => {
+  //   if (sort === 'min price') {
+  //     return products.sort((a, b) => a.price - b.price);
+  //   } else if (sort === 'max price') {
+  //     return products.sort((a, b) => b.price - a.price);
+  //   }
+  //   return products;
+  // };
 
   useEffect(() => {
     getCount()
@@ -93,24 +104,27 @@ const Home = () => {
   }
   const handleFilterChange = (setter) => (e) => {
     setter(e.target.value.trim());
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
-  
   return (
     <div>
-      <div>
-        <form onSubmit={handleSearch} className="join p-8">
-          <div className="join-item">
-            <input type='text' name='search' className="input input-bordered" placeholder="Search" />
+      <div className=''>
+        <form onSubmit={handleSearch} className="join p-2 lg:p-8  grid lg:grid-cols-7 gap-0 grid-cols-2">
+          <div className="lg:join-item ">
+            <input type='text' name='search' className="input input-bordered w-full lg:w-64" placeholder="Search" />
           </div>
+          <div className="">
+            <button type="submit" className="btn join-item w-4 lg:w-28">Search</button>
+          </div>
+          
           <select
             name='category'
             id='category'
             value={filter}
             onChange={handleFilterChange(setFilter)}
-            className="select select-bordered join-item">
-            <option selected  value="Category">Catogry</option>
+            className="select select-bordered join-item w-full lg:w-28">
+            <option selected value="Category">Catogry</option>
             <option value="Shirt">Shirt</option>
             <option value="Pant">Pant</option>
             <option value="Shoes">Shoes</option>
@@ -120,8 +134,8 @@ const Home = () => {
             id='brand'
             value={brandfilter}
             onChange={handleFilterChange(setbrandfilter)}
-            className="select select-bordered join-item">
-            <option selected  value="Brand">Brand</option>
+            className="select select-bordered join-item w-full lg:w-28">
+            <option selected value="Brand">Brand</option>
             <option value="Gucci">Gucci</option>
             <option value="Nike">Nike</option>
             <option value="LV">LV</option>
@@ -131,8 +145,8 @@ const Home = () => {
             id='price'
             value={pricefilter}
             onChange={handleFilterChange(setPricefilter)}
-            className="select select-bordered join-item">
-            <option selected  value="price">price</option>
+            className="select select-bordered join-item w-full lg:w-28">
+            <option selected value="price">price</option>
             <option value="1500-2000">1500 to 2000</option>
             <option value="2000-2500">2000 to 2500</option>
             <option value="3000-4500">3000 to 4500</option>
@@ -142,21 +156,27 @@ const Home = () => {
             id='sort'
             value={sort}
             onChange={handleFilterChange(setSort)}
-            className="select select-bordered join-item">
-            <option selected  value="sort">Sort</option>
+            className="select select-bordered join-item w-full lg:w-28">
+            <option selected value="sort">Sort</option>
             <option value="max price">max price</option>
             <option value="min price">min price</option>
           </select>
-          <div className="indicator">
-            <button type="submit" className="btn join-item">Search</button>
-          </div>
+          <select
+             name='date'
+             id='date'
+             value={date}
+             onChange={handleFilterChange(setDate)}
+            className="select select-bordered join-item w-full lg:w-28">
+            <option selected value="Date">Date</option>
+            <option value="newest">newest</option>
+            <option value="oldest">oldest</option>
+          </select>
         </form>
-
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-8'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-8 '>
         {
           products.map((product, idx) =>
-            <div key={idx} className=" bg-base-100  shadow-xl">
+            <div key={idx} className=" bg-base-100  shadow-xl hover:scale-95">
               <figure >
 
                 <img

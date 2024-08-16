@@ -66,7 +66,7 @@ const Login = () => {
       </p>
     </div>
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-    <div className="flex justify-center w-full ">
+    <div className="flex justify-center w-full mt-4">
    <button onClick={handleGoogleSignin}  className="btn flex gap-4 items-center  border-2 border-solid justify-center p-4"><FcGoogle />Sign In With Google</button>
    </div>
       <form className="card-body" onSubmit={handleSignIn}>
