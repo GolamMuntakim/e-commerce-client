@@ -20,10 +20,11 @@ const MakeCart = () => {
         const image = form.image.files[0]
         const price = form.price.value 
         const date = startDate
+        const brand = form.brand.value
         // const productData = {name,category,rating,image,price,date}
         try{
             const image_url = await imageupload(image)
-            const productData = {name,category,rating,image:image_url,price,date}
+            const productData = {name,category,rating,image:image_url,price,date,brand}
             const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/product`, productData)
             console.log(data)
             toast.success('Product Added Succesfully')
@@ -41,11 +42,26 @@ const MakeCart = () => {
                     <div className=" bg-base-100 w-[1000px]  shrink-0 shadow-2xl">
                         <form className="card-body" onSubmit={handleFormSubmit}>
                             <div className="grid grid-cols-2 gap-8">
-                                <div className="form-control">
+                            <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Product Name</span>
                                     </label>
                                     <input type="text" name="name" placeholder="Product Name" className="input input-bordered" required />
+                                </div>
+                            <div className='flex flex-col gap-2 '>
+                                    <label className="label" htmlFor='brand'>
+                                        <span className="label-text">Brand Name</span>
+                                    </label>
+                                    <select
+                                        name='brand'
+                                        id='brand'
+                                        className='border p-2 rounded-md'
+                                        required
+                                    >
+                                        <option value='Gucci'>Gucci</option>
+                                        <option value='Nike'>Nike</option>
+                                        <option value='LV'>LV</option>
+                                    </select>
                                 </div>
                                 <div className='flex flex-col gap-2 '>
                                     <label className="label" htmlFor='category'>
@@ -97,16 +113,17 @@ const MakeCart = () => {
                                     </label>
                                     <DatePicker className="border-2 border-black p-1 rounded-md" selected={startDate} onChange={(date) => setStartDate(date)} />
                                 </div>
-                              
-                            </div>
-                            <div className="form-control">
+                                <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Description</span>
                                     </label>
                                     <input type="text" name="description" placeholder="Description" className="input input-bordered" required />
                                 </div>
+                              
+                            </div>
+                           
                             <div className="form-control mt-6 flex justify-center items-center">
-                                <button className="btn btn-primary w-[200px]">Submit</button>
+                                <button className="btn btn-primary w-[200px]">Add Product</button>
                             </div>
                         </form>
                     </div>

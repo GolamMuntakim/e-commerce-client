@@ -55,6 +55,7 @@ const Nav = () => {
   <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52  shadow">
     <li><a>{user?.displayName}</a></li>
     <li onClick={logOut}><a>Log Out</a></li>
+   <li><a  className='flex items-center'>Dark/Light <input type="checkbox" className="toggle" defaultChecked /></a></li>
   </ul>
 </details>
   </div>
