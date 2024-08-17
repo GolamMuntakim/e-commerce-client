@@ -1,8 +1,10 @@
 
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../AuthProvider/AuthProvider';
+import { GiQueenCrown } from "react-icons/gi";
 
+import './shared.css'
 const Nav = () => {
   const {user,logOut} = useContext(AuthContext)
   const [theme, setTheme] = useState(()=>{
@@ -17,10 +19,7 @@ const handleToggle = e => {
   setTheme(prevTheme=>(prevTheme==='light' ? 'dark' : 'light'))
  
 }
-    const Links = <>
-    <ul><li><Link to="/">Home</Link></li></ul>
-    <ul><li><Link to="makeCart">Make Product Cart</Link></li></ul>
-    </>
+  
     return (
         <div>
             <div className="navbar bg-base-100">
@@ -43,14 +42,20 @@ const handleToggle = e => {
       <ul
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-       {Links}
+        <div><NavLink to="/">Home</NavLink></div>
+    <div><NavLink to="makeCart" >Add Product Cart</NavLink></div>
       </ul>
     </div>
-    <a className="btn btn-ghost text-xl">Zigzzag</a>
+    <a className="lobster-regular text-xl flex items-center gap-2"><GiQueenCrown className='text-4xl hidden lg:flex'/><div>Zig<span className='text-red-700'>ZZ</span>ag</div></a>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-      {Links}
+    <div className='flex gap-4'>
+    <div><NavLink to="/" style={({isActive})=>(isActive?{borderBottom:"2px solid", color:"black"}:{font:"bold"})}>Home</NavLink></div>
+    <div><NavLink to="makeCart" style={({isActive})=>(isActive?{borderBottom:"2px solid", color:"black"}:{font:"bold"})}>Add Product Cart</NavLink></div>
+    </div>
+    {/* <div><NavLink to="/">Home</NavLink></div>
+    <div><NavLink to="makeCart" >Add Product Cart</NavLink></div> */}
     </ul>
   </div>
   <div className="navbar-end">

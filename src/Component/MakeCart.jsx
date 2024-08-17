@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { imageupload } from "../api/utilities";
+import { Helmet } from "react-helmet-async";
 
 const MakeCart = () => {
     const { user } = useContext(AuthContext)
@@ -37,9 +38,14 @@ const MakeCart = () => {
 
     return (
         <div>
+             <Helmet>
+            <title>
+             Add product cart
+            </title>
+          </Helmet>
             <div className=" bg-base-200 min-h-screen">
                 <div className="hero-content ">
-                    <div className=" bg-base-100 w-[1000px]  shrink-0 shadow-2xl">
+                    <div className=" bg-base-100 w-full lg:w-[1000px]  shrink-0 shadow-2xl">
                         <form className="card-body" onSubmit={handleFormSubmit}>
                             <div className="grid grid-cols-2 gap-8">
                             <div className="form-control">
@@ -111,7 +117,7 @@ const MakeCart = () => {
                                 <label className="label">
                                         <span className="label-text">Date</span>
                                     </label>
-                                    <DatePicker className="border-2 border-black p-1 rounded-md" selected={startDate} onChange={(date) => setStartDate(date)} />
+                                    <DatePicker className="border-2 border-black p-1 rounded-md w-full" selected={startDate} onChange={(date) => setStartDate(date)} />
                                 </div>
                                 <div className="form-control">
                                     <label className="label">

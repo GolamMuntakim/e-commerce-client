@@ -3,7 +3,11 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { MdDelete } from "react-icons/md";
 import { FaStar } from "react-icons/fa";
-
+import { Helmet } from 'react-helmet-async';
+import { BiSolidCategory } from "react-icons/bi";
+import { GiQueenCrown } from 'react-icons/gi';
+import { AiFillDollarCircle } from "react-icons/ai";
+import { MdDateRange } from "react-icons/md";
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [products, setProducts] = useState([])
@@ -109,13 +113,18 @@ const Home = () => {
 
   return (
     <div>
+        <Helmet>
+            <title>
+             Home
+            </title>
+          </Helmet>
       <div className=''>
         <form onSubmit={handleSearch} className="join p-2 lg:p-8  grid lg:grid-cols-7 gap-0 grid-cols-2">
           <div className="lg:join-item ">
             <input type='text' name='search' className="input input-bordered w-full lg:w-64" placeholder="Search" />
           </div>
           <div className="">
-            <button type="submit" className="btn join-item w-4 lg:w-28">Search</button>
+            <button type="submit" className="btn join-item w-24 lg:w-28">Search</button>
           </div>
           
           <select
@@ -124,7 +133,7 @@ const Home = () => {
             value={filter}
             onChange={handleFilterChange(setFilter)}
             className="select select-bordered join-item w-full lg:w-28">
-            <option selected value="Category">Catogry</option>
+            <option selected disabled value="category">Category</option>
             <option value="Shirt">Shirt</option>
             <option value="Pant">Pant</option>
             <option value="Shoes">Shoes</option>
@@ -135,7 +144,7 @@ const Home = () => {
             value={brandfilter}
             onChange={handleFilterChange(setbrandfilter)}
             className="select select-bordered join-item w-full lg:w-28">
-            <option selected value="Brand">Brand</option>
+            <option disabled selected value="Brand">Brand</option>
             <option value="Gucci">Gucci</option>
             <option value="Nike">Nike</option>
             <option value="LV">LV</option>
@@ -146,7 +155,7 @@ const Home = () => {
             value={pricefilter}
             onChange={handleFilterChange(setPricefilter)}
             className="select select-bordered join-item w-full lg:w-28">
-            <option selected value="price">price</option>
+            <option disabled selected value="price">price</option>
             <option value="1500-2000">1500 to 2000</option>
             <option value="2000-2500">2000 to 2500</option>
             <option value="3000-4500">3000 to 4500</option>
@@ -157,7 +166,7 @@ const Home = () => {
             value={sort}
             onChange={handleFilterChange(setSort)}
             className="select select-bordered join-item w-full lg:w-28">
-            <option selected value="sort">Sort</option>
+            <option disabled selected value="sort">Sort</option>
             <option value="max price">max price</option>
             <option value="min price">min price</option>
           </select>
@@ -167,7 +176,7 @@ const Home = () => {
              value={date}
              onChange={handleFilterChange(setDate)}
             className="select select-bordered join-item w-full lg:w-28">
-            <option selected value="Date">Date</option>
+            <option disabled selected value="Date">Date</option>
             <option value="newest">newest</option>
             <option value="oldest">oldest</option>
           </select>
@@ -185,19 +194,19 @@ const Home = () => {
                   className=' h-[250px] w-full ' />
               </figure>
               <div className="card-body">
-                <h2 className="card-title">{product?.name}</h2>
+                <h2 className="card-title ">{product?.name}</h2>
                 <div className='flex justify-between'>
-                  <p>{product?.category}</p>
-                  <p>{product?.brand}</p>
+                  <p className=' text-black flex items-center gap-2'><BiSolidCategory />{product?.category}</p>
+                  <p className='flex gap-2 items-center'><GiQueenCrown/>{product?.brand}</p>
                 </div>
                 <div className='flex justify-between'>
-                  <p>{product?.price}</p>
+                  <p className='flex gap-2 items-center'><AiFillDollarCircle />{product?.price}</p>
                   <p className='flex items-center gap-2'><FaStar />{product?.rating}</p>
                 </div>
-                <p>{new Date(product?.date).toLocaleDateString()}</p>
+                <p className='flex gap-2 items-center'><MdDateRange />{new Date(product?.date).toLocaleDateString()}</p>
 
-                <div className="card-actions justify-end">
-                  <button onClick={() => handleDelete(product._id)} className="btn text-4xl"><MdDelete /></button>
+                <div className="card-actions justify-center">
+                  <button onClick={() => handleDelete(product._id)} className="btn text-3xl text-red-700"><MdDelete /></button>
                 </div>
               </div>
             </div>
@@ -205,7 +214,7 @@ const Home = () => {
         }
       </div>
       {/* pagination */}
-      <div className='flex justify-center w-[550px] md:w-[400px] lg:w-[1260px] mt-12'>
+      <div className='flex justify-center w-full md:w-[400px] lg:w-[1260px] mt-12'>
         <button
           disabled={currentPage === 1}
           onClick={() => handlePagination(currentPage - 1)}
@@ -226,7 +235,7 @@ const Home = () => {
               />
             </svg>
 
-            <span className='mx-1'>previous</span>
+            <span className='mx-1'><span className='hidden lg:flex'>previous</span></span>
           </div>
         </button>
 
@@ -234,7 +243,7 @@ const Home = () => {
           <button
             key={btnNum}
             onClick={() => handlePagination(btnNum)}
-            className={`${currentPage === btnNum ? 'bg-black text-white' : ''} hidden  px-4 py-2 mx-1 transition-colors duration-300 transform  rounded-md sm:inline hover:bg-blue-500  hover:text-white`}
+            className={`${currentPage === btnNum ? 'bg-black text-white' : ''}   px-4 py-2 lg:mx-1 transition-colors duration-300 transform  rounded-md sm:inline hover:bg-blue-500  hover:text-white`}
           >
             {btnNum}
           </button>
@@ -245,7 +254,7 @@ const Home = () => {
           onClick={() => handlePagination(currentPage + 1)}
           className='px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-gray-200 rounded-md hover:bg-blue-500 disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:text-white disabled:cursor-not-allowed disabled:text-gray-500'>
           <div className='flex items-center -mx-1'>
-            <span className='mx-1'>Next</span>
+            <span className='mx-1'><span className='hidden lg:flex'>Next</span></span>
 
             <svg
               xmlns='http://www.w3.org/2000/svg'
