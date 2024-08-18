@@ -13,3 +13,4 @@
 1. install mongodb and add new user in database.
 2. exchange the DB_USER and DB_PASS in .env file from mongodb database .
 3. install cors , cookie-parser and json web token.
+4. run nodemon index.js
